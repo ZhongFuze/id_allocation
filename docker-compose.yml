@@ -4,10 +4,10 @@ services:
     image: ghcr.io/zhongfuze/id_allocation:main
     container_name: id_allocation
     volumes:
-      - ./app/data:/app/data
-      - ./app/config:/app/config
-      - ./app/log_tmp:/tmp
-      - ./app/log:/app/log
+      - ~/app/data:/app/data
+      - ~/app/config:/app/config
+      - ~/app/log_tmp:/tmp
+      - ~/app/log:/app/log
     network_mode: "host"
   nginx:
     image: nginx
