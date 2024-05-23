@@ -1,0 +1,14 @@
+[server]
+server_name = "id_allocation"
+ip = "127.0.0.1"
+port = 9001
+work_path = "/app"
+thread_count = 8
+process_count = 6
+log_path = "/app/log"
+log_level = 1
+log_max_size = 1600
+
+[id_allocation]
+write = "postgresql://postgres:password@host/dbname"
+read = "postgresql://postgres:password@host/dbname"
