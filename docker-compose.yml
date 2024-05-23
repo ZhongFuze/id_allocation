@@ -4,7 +4,7 @@ services:
     image: ghcr.io/zhongfuze/id_allocation:main
     container_name: id_allocation
     volumes:
-      - ./shared_data:/app/data
+      - ./app/data:/app/data
       - ./app/config:/app/config
       - ./app/log_tmp:/tmp
       - ./app/log:/app/log
