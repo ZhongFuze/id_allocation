@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-05-23 22:47:04
 LastEditors: Zella Zhong
-LastEditTime: 2024-05-24 04:52:22
+LastEditTime: 2024-05-24 05:20:48
 FilePath: /id_allocation/src/controller/allocation_controller.py
 Description: allocation controller
 '''
@@ -50,12 +50,12 @@ class AllocationController(httpsvr.BaseController):
         updated_nanosecond = data.get("updated_nanosecond", 0)
         vids = data.get("vids", [])
         if graph_id == "" or updated_nanosecond == 0:
-            return httpsvr.Resp(msg="Invalid input body", data={}, code=-1)
+            return httpsvr.Resp(msg="Invalid input body", data=None, code=-1)
         if len(vids) == 0:
-            return httpsvr.Resp(msg="Invalid input body", data={}, code=-1)
+            return httpsvr.Resp(msg="Invalid input body", data=None, code=-1)
 
         
-        data = {}
+        data = None
         rows = []
         code = 0
         msg = ""
@@ -71,7 +71,7 @@ class AllocationController(httpsvr.BaseController):
             if len(rows) == 0:
                 cursor.close()
                 pg_conn.close()
-                return httpsvr.Resp(msg="allocation ID=null", data={}, code=-1)
+                return httpsvr.Resp(msg="allocation ID=null", data=None, code=-1)
 
             data = rows[0]
             cursor.close()
