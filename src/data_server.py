@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-05-23 22:34:52
 LastEditors: Zella Zhong
-LastEditTime: 2024-05-23 22:54:59
+LastEditTime: 2024-05-24 05:18:37
 FilePath: /id_allocation/src/data_server.py
 Description: main entry point for allocating
 '''
@@ -18,8 +18,8 @@ from controller.allocation_controller import AllocationController
 
 
 if __name__ == "__main__":
-    config = setting.load_settings(env="development")
-    # config = setting.load_settings(env="production")
+    # config = setting.load_settings(env="development")
+    config = setting.load_settings(env="production")
     if not os.path.exists(config["server"]["log_path"]):
         os.makedirs(config["server"]["log_path"])
     logger.InitLogger(config)
