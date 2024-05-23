@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-05-23 22:34:52
 LastEditors: Zella Zhong
-LastEditTime: 2024-05-24 05:18:37
+LastEditTime: 2024-05-24 05:44:41
 FilePath: /id_allocation/src/data_server.py
 Description: main entry point for allocating
 '''
@@ -14,6 +14,7 @@ import logging
 import setting
 import setting.filelogger as logger
 
+from controller.hello_controller import HelloController
 from controller.allocation_controller import AllocationController
 
 
@@ -29,6 +30,7 @@ if __name__ == "__main__":
         from httpsvr import httpsvr
         # [path, controller class, method]
         ctrl_info = [
+            ["/", HelloController, "hello"],
             ["/id_allocation/allocation", AllocationController, "allocation"],
         ]
         svr = httpsvr.HttpSvr(config, ctrl_info)

@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-05-23 22:47:04
 LastEditors: Zella Zhong
-LastEditTime: 2024-05-24 05:20:48
+LastEditTime: 2024-05-24 05:44:35
 FilePath: /id_allocation/src/controller/allocation_controller.py
 Description: allocation controller
 '''
@@ -67,7 +67,7 @@ class AllocationController(httpsvr.BaseController):
             ssql = "SELECT * FROM process_id_allocation(%s, '%s', %d);" % (process_vids, graph_id, updated_nanosecond)
             cursor.execute(ssql)
             rows = [dict_factory(cursor, row) for row in cursor.fetchall()]
-            logging.debug("allocation vids: {}, result: {}".format(process_vids, rows))
+            logging.info("allocation vids: {}, result: {}".format(process_vids, rows))
             if len(rows) == 0:
                 cursor.close()
                 pg_conn.close()
