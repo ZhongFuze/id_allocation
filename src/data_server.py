@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-05-23 22:34:52
 LastEditors: Zella Zhong
-LastEditTime: 2024-05-24 05:44:41
+LastEditTime: 2024-05-25 04:19:08
 FilePath: /id_allocation/src/data_server.py
 Description: main entry point for allocating
 '''

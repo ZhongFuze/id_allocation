@@ -39,8 +39,25 @@ BEGIN
         UPDATE id_allocation
         SET graph_id = return_graph_id, updated_nanosecond = return_updated_nanosecond, picked_time = CURRENT_TIMESTAMP
         WHERE unique_id = ANY(vids);
+
+        -- Insert new records that do not exist in the table
+        FOR existing_record IN
+            SELECT unnest(vids) AS unique_id
+        LOOP
+            INSERT INTO id_allocation (unique_id, graph_id, platform, identity, updated_nanosecond, picked_time)
+            VALUES (
+                existing_record.unique_id,
+                new_graph_id,
+                split_part(existing_record.unique_id, ',', 1),
+                split_part(existing_record.unique_id, ',', 2),
+                new_updated_nanosecond,
+                CURRENT_TIMESTAMP
+            )
+            ON CONFLICT (unique_id) DO NOTHING; -- Ensure no duplicates
+        END LOOP;
+
     ELSE
-        -- Insert new records
+        -- Insert all records since no existing records were found
         FOR existing_record IN
             SELECT unnest(vids) AS unique_id
         LOOP
@@ -63,8 +80,6 @@ BEGIN
     RETURN QUERY SELECT return_graph_id, return_updated_nanosecond;
 END;
 $$ LANGUAGE plpgsql;
-
-
 
 SELECT * FROM process_id_allocation(
     ARRAY['twitter,chan_izaki65652', 'farcaster,gytred', 'ethereum,0x61ae970ac67ff4164ebf2fd6f38f630df522e5ef'],

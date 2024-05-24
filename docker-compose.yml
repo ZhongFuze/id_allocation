@@ -1,14 +1,5 @@
 version: "3.9"
 services:
-  server:
-    image: ghcr.io/zhongfuze/id_allocation:main
-    container_name: id_allocation
-    volumes:
-      - ~/app/data:/app/data
-      - ~/app/config:/app/config
-      - ~/app/log_tmp:/tmp
-      - ~/app/log:/app/log
-    network_mode: "host"
   nginx:
     image: nginx
     container_name: nginx
@@ -17,4 +8,21 @@ services:
       - ~/app/nginx/conf.d:/etc/nginx/conf.d
       - ~/app/nginx/logs:/var/log/nginx
       - ~/app/nginx/ssl:/etc/ssl
-    network_mode: "host"
+    ports:
+      - "9002:9001"
+    depends_on:
+      - id_allocation
+
+  id_allocation:
+    image: ghcr.io/zhongfuze/id_allocation:main
+    container_name: id_allocation
+    volumes:
+      - ~/app/data:/app/data
+      - ~/app/config:/app/config
+      - ~/app/log_tmp:/tmp
+      - ~/app/log:/app/log
+    ports:
+      - "9001:9001"
+networks:
+  default:
+    driver: bridge
