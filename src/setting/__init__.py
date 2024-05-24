@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-05-23 22:36:57
 LastEditors: Zella Zhong
-LastEditTime: 2024-05-23 22:46:16
+LastEditTime: 2024-05-24 23:57:37
 FilePath: /id_allocation/src/setting/__init__.py
 Description: load toml config and global setting
 '''
@@ -70,6 +70,7 @@ def load_dsn(config_file):
 def get_write_conn():
     try:
         pg_conn = psycopg2.connect(ID_ALLOCATION["write"])
+        pg_conn.autocommit = True
     except Exception as e:
         logging.exception(e)
         raise e
