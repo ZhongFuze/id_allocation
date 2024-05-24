@@ -6,7 +6,7 @@ import logging
 class HttpSvrConfig():
     """config is an toml object"""
     def __init__(self, config):
-        self.ip = ""
+        self.ip = config["server"]["ip"]
         self.port = config["server"]["port"]
         self.work_path = config["server"]["work_path"]
         self.server_name = config["server"]["server_name"]

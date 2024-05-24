@@ -12,9 +12,6 @@ services:
       - "9002:9001"
     depends_on:
       - id_allocation
-    networks:
-      put_net:
-        ipv4_address: 192.168.100.2
 
   id_allocation:
     image: ghcr.io/zhongfuze/id_allocation:main
@@ -26,13 +23,6 @@ services:
       - ~/app/log:/app/log
     ports:
       - "9001:9001"
-    networks:
-      put_net:
-        ipv4_address: 192.168.100.3
-
 networks:
-  put_net:
+  default:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 192.168.100.0/24
