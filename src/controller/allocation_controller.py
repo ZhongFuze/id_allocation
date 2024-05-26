@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-05-23 22:47:04
 LastEditors: Zella Zhong
-LastEditTime: 2024-05-24 05:44:35
+LastEditTime: 2024-05-26 16:57:04
 FilePath: /id_allocation/src/controller/allocation_controller.py
 Description: allocation controller
 '''
@@ -45,6 +45,10 @@ class AllocationController(httpsvr.BaseController):
         }
         '''
         post_data = self.inout.request.body
+        if post_data is None:
+            return httpsvr.Resp(msg="Invalid input body", data=None, code=-1)
+        if post_data == "":
+            return httpsvr.Resp(msg="Invalid input body", data=None, code=-1)
         data = json.loads(post_data)
         graph_id = data.get("graph_id", "")
         updated_nanosecond = data.get("updated_nanosecond", 0)
@@ -54,7 +58,6 @@ class AllocationController(httpsvr.BaseController):
         if len(vids) == 0:
             return httpsvr.Resp(msg="Invalid input body", data=None, code=-1)
 
-        
         data = None
         rows = []
         code = 0
