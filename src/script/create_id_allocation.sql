@@ -47,10 +47,10 @@ BEGIN
             INSERT INTO id_allocation (unique_id, graph_id, platform, identity, updated_nanosecond, picked_time)
             VALUES (
                 existing_record.unique_id,
-                new_graph_id,
+                return_graph_id,
                 split_part(existing_record.unique_id, ',', 1),
                 split_part(existing_record.unique_id, ',', 2),
-                new_updated_nanosecond,
+                return_updated_nanosecond,
                 CURRENT_TIMESTAMP
             )
             ON CONFLICT (unique_id) DO NOTHING; -- Ensure no duplicates
