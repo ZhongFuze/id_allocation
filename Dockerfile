@@ -14,5 +14,5 @@ COPY src .
 COPY run.sh .
 COPY supervisord.conf .
 
-EXPOSE 9001
+EXPOSE 9002
 ENTRYPOINT ["./run.sh"]

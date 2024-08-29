@@ -9,7 +9,7 @@ services:
       - ~/app/nginx/logs:/var/log/nginx
       - ~/app/nginx/ssl:/etc/ssl
     ports:
-      - "9002:9001"
+      - "9001:9002"
     depends_on:
       - id_allocation
     networks:
@@ -20,12 +20,12 @@ services:
     image: ghcr.io/zhongfuze/id_allocation:main
     container_name: id_allocation
     volumes:
-      - ~/app/data:/app/data
-      - ~/app/config:/app/config
-      - ~/app/log_tmp:/tmp
-      - ~/app/log:/app/log
+      - ~/app/id_allocation/data:/app/data
+      - ~/app/id_allocation/config:/app/config
+      - ~/app/id_allocation/log_tmp:/tmp
+      - ~/app/id_allocation/log:/app/log
     ports:
-      - "9001:9001"
+      - "9002:9002"
     networks:
       put_net:
         ipv4_address: 192.168.100.3
