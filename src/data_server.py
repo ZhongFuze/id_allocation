@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-05-23 22:34:52
 LastEditors: Zella Zhong
-LastEditTime: 2024-05-25 04:19:08
+LastEditTime: 2024-09-02 10:13:00
 FilePath: /id_allocation/src/data_server.py
 Description: main entry point for allocating
 '''
@@ -32,6 +32,7 @@ if __name__ == "__main__":
         ctrl_info = [
             ["/", HelloController, "hello"],
             ["/id_allocation/allocation", AllocationController, "allocation"],
+            ["/id_allocation/unallocation", AllocationController, "unallocation"],
         ]
         svr = httpsvr.HttpSvr(config, ctrl_info)
         svr.Start()

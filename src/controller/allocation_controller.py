@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-05-23 22:47:04
 LastEditors: Zella Zhong
-LastEditTime: 2024-05-26 16:57:04
+LastEditTime: 2024-09-02 10:08:16
 FilePath: /id_allocation/src/controller/allocation_controller.py
 Description: allocation controller
 '''
@@ -30,6 +30,68 @@ class AllocationController(httpsvr.BaseController):
     '''AllocationController'''
     def __init__(self, obj, param=None):
         super(AllocationController, self).__init__(obj)
+
+    def unallocation(self):
+        '''
+        description:
+        requestbody: {
+            "vids": ["string"],
+        }
+        return: {
+            {
+                "unique_id_1": "old_graph_id_1",
+                "unique_id_2": "old_graph_id_2",
+            }
+                
+        }
+        '''
+        post_data = self.inout.request.body
+        if post_data is None:
+            return httpsvr.Resp(msg="Invalid input body", data=None, code=-1)
+        if post_data == "":
+            return httpsvr.Resp(msg="Invalid input body", data=None, code=-1)
+        data = json.loads(post_data)
+        vids = data.get("vids", [])
+        if len(vids) == 0:
+            return httpsvr.Resp(msg="Invalid input body", data=None, code=-1)
+
+        data = {}
+        for vid in vids:
+            data[vid] = ""
+
+        rows = []
+        code = 0
+        msg = ""
+        try:
+            pg_conn = get_write_conn()
+            cursor = pg_conn.cursor()
+
+            in_vids = "(" + ",".join(["'" + x + "'" for x in vids]) + ")"
+            ssql = "SELECT unique_id, graph_id FROM id_allocation WHERE unique_id in {}".format(in_vids)
+            cursor.execute(ssql)
+            rows = [dict_factory(cursor, row) for row in cursor.fetchall()]
+
+            for row in rows:
+                row_unique_id = row["unique_id"]
+                row_graph_id = row["graph_id"]
+                data[row_unique_id] = row_graph_id
+            
+            if len(rows) > 0:
+                delete_sql = "DELETE FROM id_allocation WHERE unique_id in {}".format(in_vids)
+                cursor.execute(delete_sql)
+                pg_conn.commit()
+                logging.warn("unallocation delete: {}".format(rows))
+
+            logging.info("unallocation vids: {}, result: {}".format(in_vids, rows))
+        except Exception as e:
+            code = -1
+            msg = repr(e)
+            logging.exception(e)
+        finally:
+            cursor.close()
+            pg_conn.close()
+
+        return httpsvr.Resp(msg=msg, data=data, code=code)
 
     def allocation(self):
         '''
